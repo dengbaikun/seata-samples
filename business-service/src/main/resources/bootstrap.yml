@@ -1,0 +1,39 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: business-service
+  cloud:
+    nacos:
+      server-addr: 192.168.84.100:8848
+      username: nacos
+      password: nacos
+      discovery:
+        namespace: dd476f40-8fde-4e23-a449-71f46d5be99c
+    inetutils:
+      ignored-interfaces: [ 'VMware.*','Hyper-V.*' ]
+# seata
+seata:
+  enabled: true
+  application-id:  ${spring.application.name}
+  tx-service-group: my_test_tx_group
+  enable-auto-data-source-proxy: true #仅AT与XA模式需要为true,开启后会自动代理数据源
+  data-source-proxy-mode: AT #可选AT&XA
+  config:
+    type: nacos
+    nacos:
+      namespace: dd476f40-8fde-4e23-a449-71f46d5be99c
+      serverAddr: 192.168.84.100:8848
+      group: "SEATA_GROUP"
+      username: "nacos"
+      password: "nacos"
+      data-id: seata.properties
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: 192.168.84.100:8848
+      group : "SEATA_GROUP"
+      namespace: dd476f40-8fde-4e23-a449-71f46d5be99c
+      username: "nacos"
+      password: "nacos"
